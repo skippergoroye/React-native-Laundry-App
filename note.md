@@ -15,13 +15,113 @@ npx expo install expo-location
 If you're using the iOS or Android Emulators, ensure that Location is enabled.
 
 
-
+# Step 1 Check if location is enabled
 - Location.hasServicesEnabledAsync()
 Checks whether location services are enabled by the user.
 
 
+# Step 2 getCurrentLocation
 - Location.requestForegroundPermissionsAsync()
 Asks the user to grant permissions for location while the app is in the foreground.
+
+
+
+
+import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import * as Location from 'expo-location';
+
+const HomeScreen = () => {
+   const [displayCurrentAddress, setDisplayCurrentAddress] = useState("We are loading your loaction")
+   const [locationServicesEnabled, setLocationServicesEnabled] = useState(false)
+
+
+   useEffect(() => {
+     checkIfLocationEnabled()
+     getCurrentLocation()
+   }, [])
+
+   const checkIfLocationEnabled = async () => {
+    let enabled = await Location.hasServicesEnabledAsync()
+
+    if(!enabled){
+      Alert.alert(
+        'Location servies not enabled', 
+        'Please enable the location services', 
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    } else {
+      setLocationServicesEnabled(enabled)
+    }
+   }
+
+
+   const getCurrentLocation = async () => {
+     // let checkStatus = await Location.requestForegroundPermissionsAsync()
+    // console.log(checkStatus)
+
+    // Desstructuring properties
+    let { status } = await Location.requestForegroundPermissionsAsync()
+
+    if(status !== "granted"){
+      Alert.alert(
+        'Location servies not enabled', 
+        'Please enable the location services', 
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    }
+
+    
+    // const coordinate  = await Location.getCurrentPositionAsync()
+    // console.log(coordinate)
+
+    
+    // Destructuring
+    const { coords } = await Location.getCurrentPositionAsync()
+    // console.log(coords)
+
+    if(coords) {
+      const { latitude, longitude } = coords
+
+      let response = await Location.reverseGeocodeAsync({
+         latitude, 
+         longitude 
+      });
+      console.log(response)
+
+
+      for(let item of response) {
+        let address = `${item.name} ${item.city} ${item.postalCode}` 
+        setDisplayCurrentAddress(address)
+      }
+    }
+   }
+
+
+  return (
+    <View>
+      <Text>HomeScreen</Text>
+    </View>
+  )
+}
+
+export default HomeScreen
+
+const styles = StyleSheet.create({})
+
+
 
 
 
@@ -89,15 +189,47 @@ const App = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-});
 
-export default App;
+
+
+
+
+
+
+3. Add Image Carousels
+
+# installation 
+- npm install react-native-image-slider-box
+- npm install deprecated-react-native-prop-types
+
+1. add below import in your code :
+import { SliderBox } from "react-native-image-slider-box";
+
+
+
+2. Use SliderBox such as these below examples
+
+const images = [
+        "https://media.istockphoto.com/id/1247884083/vector/laundry-service-room-vector-illustration-washing-and-drying-machines-with-cleansers-on-shelf.jpg?s=612x612&w=0&k=20&c=myaNEKlqX7R--bzWGDoMI7PhdxG_zdQTKYEBlymJQGk=",
+        "https://images.pexels.com/photos/5591581/pexels-photo-5591581.jpeg?auto=compress&cs=tinysrgb&w=800",
+  ];
+
+<SliderBox images={images} />
+
+<SliderBox 
+    images={images} 
+    autoplay
+    circleLoop
+    dotColor={"#13274f"}
+    inactiveDotColor="#90A4AE"
+    ImageComponentStyle={{
+        borderRadius: 6,
+        width: "94%"
+    }}
+/>
+
+
+
 
 
 
