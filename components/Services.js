@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const Services = () => {
@@ -24,9 +24,19 @@ const Services = () => {
           name: "Cleaning",
         },
       ];
+
+
   return (
-    <View>
-      <Text>Services</Text>
+    <View style={{padding: 10}}>
+      <Text style={{ fontSize: 16, fontWeight: "500", marginBottom: 7}}>Services Avaliable</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}> 
+        {services.map(({ id, image, name }) => (
+            <Pressable key={id} style={{margin: 10, backgroundColor: "white", padding: 20, borderRadius: 7}}>
+                <Image source={{uri: image}} style={{width: 70, height: 70}} />
+                <Text style={{textAlign:"center", marginTop: 10}}>{name}</Text>
+            </Pressable>
+        ))}
+      </ScrollView> 
     </View>
   )
 }
