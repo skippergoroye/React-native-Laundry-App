@@ -1,0 +1,1 @@
+# A basic laundry app using Expo, Firebase and more
