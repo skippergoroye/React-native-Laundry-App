@@ -15,13 +15,14 @@ import * as Location from "expo-location";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
 import DressItem from "../components/DressItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../features/productSlice";
 
 
 
 const HomeScreen = () => {
-  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
-    "We are loading your loaction"
-  );
+  const cart = useSelector((state) => state.cart.cartItems)
+  const [displayCurrentAddress, setDisplayCurrentAddress] = useState("We are loading your loaction");
   const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
 
   useEffect(() => {
@@ -94,6 +95,27 @@ const HomeScreen = () => {
       }
     }
   };
+
+
+
+
+
+
+  const product = useSelector((state) =>  state.product.productItems)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(product.length > 0) return;
+
+    const fetchProducts = () => {
+      services.map((service) => dispatch(getProducts(service)))
+    };
+    fetchProducts()
+  },[])
+
+  // console.log(product)
+
+ 
 
   const services = [
     {
@@ -195,7 +217,7 @@ const HomeScreen = () => {
 
 
       {/* trender all products  */}
-      {services.map((item, index) => (
+      {product.map((item, index) => (
         <DressItem item={item} key={index}/>
       ))}
 
