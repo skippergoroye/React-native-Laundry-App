@@ -23,7 +23,7 @@ const DressItem = ({ item }) => {
         </View>
 
         <View>
-          <Text>{item.name}</Text>
+          <Text style={{fontWeight: "bold", marginBottom: 2}}>{item.name}</Text>
           <Text>${item.price}</Text>
         </View>
 
@@ -31,12 +31,14 @@ const DressItem = ({ item }) => {
           <Text
             style={{
               borderColor: "gray",
-              borderRadius:6,
+              borderRadius:4,
               borderWidth: 0.8,
               marginVertical: 10,
               color: "#088F8F",
               textAlign: "center",
               padding: 5,
+              fontSize: 17,
+              fontWeight: "bold"
             }}
           >
             Add
