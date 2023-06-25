@@ -218,7 +218,7 @@ const HomeScreen = () => {
 
       {/* trender all products  */}
       {product.map((item, index) => (
-        <DressItem item={item} key={index}/>
+        <DressItem item={item} key={index} />
       ))}
 
 
