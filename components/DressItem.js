@@ -1,8 +1,9 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, decrementQuantity, incrementQuantity } from "../features/cartSlice";
-import { decrementQty, incrementQty } from "../features/productSlice";
+import { addToCart,  decrementQuantity, incrementQuantity } from "../features/cartSlice";
+import { incrementQty, decrementQty } from "../features/productSlice";
+
 
 const DressItem = ({ item }) => {
   const dispatch = useDispatch()
@@ -10,8 +11,10 @@ const DressItem = ({ item }) => {
 
   const addItemToCart = () => {
     dispatch(addToCart(item))  // cart
-    dispatch(incrementQty(item))  // product
-  }
+    dispatch(incrementQty(item)) // product
+  };
+
+ 
 
 
   return (
@@ -42,12 +45,12 @@ const DressItem = ({ item }) => {
 
         {cart.some((c) => c.id === item.id) ? (
           <Pressable
-            style={{
-              flexDirection: "row",
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-            }}
-          >
+          style={{
+            flexDirection: "row",
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+          }}
+        >
           <Pressable
             onPress={() => {
               dispatch(decrementQuantity(item)); // cart
@@ -118,7 +121,7 @@ const DressItem = ({ item }) => {
           </Pressable>
         </Pressable>
         ) : (
-          <Pressable onPress={addItemToCart} style={{ width: 80 }}>
+        <Pressable onPress={addItemToCart} style={{ width: 80 }}>
           <Text
             style={{
               borderColor: "gray",
