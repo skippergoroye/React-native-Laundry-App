@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import { store } from './app/store'
 import { Provider } from 'react-redux'
+import PickUpScreen from './screens/PickUpScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -15,6 +16,7 @@ export default function App() {
       <Provider store={store}>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="PickUp" component={PickUpScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       <StatusBar style="auto" />
     </Provider>

@@ -17,10 +17,15 @@ import Services from "../components/Services";
 import DressItem from "../components/DressItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/productSlice";
+import { useNavigation } from "@react-navigation/native";
+
 
 const HomeScreen = () => {
   const cart = useSelector((state) => state.cart.cartItems);
   const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
+  const navigation = useNavigation()
+
+  // console.log(cart)
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     "We are loading your loaction"
   );
@@ -124,42 +129,42 @@ const HomeScreen = () => {
       image: "https://cdn-icons-png.flaticon.com/128/892/892458.png",
       name: "T-shirt",
       quantity: 0,
-      price: 10,
+      price: 5,
     },
     {
       id: "12",
       image: "https://cdn-icons-png.flaticon.com/128/9609/9609161.png",
       name: "dresses",
       quantity: 0,
-      price: 10,
+      price: 25,
     },
     {
       id: "13",
       image: "https://cdn-icons-png.flaticon.com/128/599/599388.png",
       name: "jeans",
       quantity: 0,
-      price: 10,
+      price: 40,
     },
     {
       id: "14",
       image: "https://cdn-icons-png.flaticon.com/128/9431/9431166.png",
       name: "Sweater",
       quantity: 0,
-      price: 10,
+      price: 5,
     },
     {
       id: "15",
       image: "https://cdn-icons-png.flaticon.com/128/3345/3345397.png",
       name: "shorts",
       quantity: 0,
-      price: 10,
+      price: 30,
     },
     {
       id: "16",
       image: "https://cdn-icons-png.flaticon.com/128/293/293241.png",
       name: "Sleeveless",
       quantity: 0,
-      price: 10,
+      price: 50,
     },
   ];
 
@@ -221,24 +226,24 @@ const HomeScreen = () => {
         null
       ) : (
         <Pressable
-        style={{
-          backgroundColor: "#01A296",
-          padding: 10,
-          marginBottom: 40,
-          margin: 15,
-          borderRadius: 7,
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between"
-        }}
+          style={{
+            backgroundColor: "#01A299",
+            padding: 10,
+            marginBottom: 40,
+            margin: 15,
+            borderRadius: 7,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
       >
         <View>
           <Text style={{fontSize: 17, fontWeight: "600", color:"white"}}>{cart.length} items | {total}</Text>
-          <Text style={{fontSize: 13, fontWeight: "400", color:"white", marginVertical: 6}}>extra charges might apply</Text>
+          <Text style={{fontSize: 13, fontWeight: "400", color:"white", marginVertical: 6}}>Extra charges might apply</Text>
         </View>
 
-        <Pressable>
-          <Text style={{fontSize: 17, fontWeight: 600, color: "white"}}>Proceed to pickup</Text>
+        <Pressable style={{ backgroundColor: "#fce303", padding: 10, borderRadius: 15 }} onPress={() => navigation.navigate("PickUp")}>
+          <Text style={{fontSize: 17, fontWeight: 600, color: "black"}}>Proceed to pickup</Text>
         </Pressable>
       </Pressable>
       )} 
