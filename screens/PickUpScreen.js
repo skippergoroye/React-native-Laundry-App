@@ -5,13 +5,20 @@ import {
   TextInput,
   Pressable,
   ScrollView,
+  View,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import HorizontalDatepicker from "@awrminkhodaei/react-native-horizontal-datepicker";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const PickUpScreen = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState([]);
+  const [delivery, setDelivery] = useState([]);
+  const cart = useSelector((state) => state.cart.cartItems)
+  const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
   const deliveryTime = [
     {
       id: "0",
@@ -34,6 +41,7 @@ const PickUpScreen = () => {
       name: "Tommorrow",
     },
   ];
+
 
   const times = [
     {
@@ -62,7 +70,30 @@ const PickUpScreen = () => {
     },
   ];
 
+  const navigation = useNavigation()
+  const proceedToCart = () => {
+    if(!selectedDate || !selectedTime || !delivery) {
+      Alert.alert(
+        'Empty or invalid', 
+        'Please select all fields', 
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    }
+
+
+    if(selectedDate && selectedTime && delivery){
+      navigation.replace("Cart")
+    }
+  }
+
   return (
+    <>
     <SafeAreaView style={{ marginTop: 30 }}>
       <Text style={{ fontSize: 16, fontWeight: "500", marginHorizontal: 10 }}>
         Enter Address
@@ -107,26 +138,90 @@ const PickUpScreen = () => {
             key={index}
             onPress={() => setSelectedTime(item.time)}
             style={
-              selectedTime.includes(item.time) ? {
-                margin: 10,
-                borderRadius: 7,
-                padding: 15,
-                borderColor: "red",
-                borderWidth: 0.7,
-              } : {
-                margin: 10,
-                borderRadius: 7,
-                padding: 15,
-                borderColor: "gray",
-                borderWidth: 0.7,
-              }
+              selectedTime.includes(item.time)
+                ? {
+                    margin: 10,
+                    borderRadius: 7,
+                    padding: 15,
+                    borderColor: "green",
+                    borderWidth: 3,
+                  }
+                : {
+                    margin: 10,
+                    borderRadius: 7,
+                    padding: 15,
+                    borderColor: "gray",
+                    borderWidth: 0.7,
+                  }
             }
           >
             <Text>{item.time}</Text>
           </Pressable>
         ))}
       </ScrollView>
+
+      <Text style={{ fontSize: 16, fontWeight: "500", marginHorizontal: 10 }}>
+        Delivery Date
+      </Text>
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {deliveryTime.map((item, index) => (
+          <Pressable
+            key={index}
+            onPress={() => setDelivery(item.name)}
+            style={
+              delivery.includes(item.name)
+                ? {
+                    margin: 10,
+                    borderRadius: 7,
+                    padding: 15,
+                    borderColor: "green",
+                    borderWidth: 3,
+                  }
+                : {
+                    margin: 10,
+                    borderRadius: 7,
+                    padding: 15,
+                    borderColor: "gray",
+                    borderWidth: 0.7,
+                  }
+            }
+          >
+            <Text>{item.name}</Text>
+          </Pressable>
+        ))}
+      </ScrollView>
     </SafeAreaView>
+
+    {total === 0 ? (
+        null
+      ) : (
+        <Pressable
+          style={{
+            backgroundColor: "#01A299",
+            padding: 10,
+            marginBottom: 40,
+            marginTop: "auto",
+            margin: 15,
+            borderRadius: 7,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+      >
+        <View>
+          <Text style={{fontSize: 17, fontWeight: "600", color:"white"}}>{cart.length} items | {total}</Text>
+          <Text style={{fontSize: 13, fontWeight: "400", color:"white", marginVertical: 6}}>Extra charges might apply</Text>
+        </View>
+
+        <Pressable style={{ backgroundColor: "#fce303", padding: 10, borderRadius: 15 }} onPress={proceedToCart}>
+          <Text style={{fontSize: 17, fontWeight: 600, color: "black"}}>Proceed to Cart</Text>
+        </Pressable>
+      </Pressable>
+      )} 
+
+
+    </>
   );
 };
 
