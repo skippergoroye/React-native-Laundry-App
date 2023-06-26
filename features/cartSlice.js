@@ -20,7 +20,7 @@ export const CartSlice = createSlice({
         },
         removeFromCart:(state,action) => {
             const removeItem = state.cartItems.filter((item) => item.id !== action.payload.id);
-            state.cart = removeItem;
+            state.cartItems = removeItem;
         },
         incrementQuantity:(state,action) => {
             const itemPresent = state.cartItems.find((item) => item.id === action.payload.id);
