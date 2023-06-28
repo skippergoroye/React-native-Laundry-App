@@ -69,7 +69,8 @@ const PickUpScreen = () => {
       time: "4:00 PM",
     },
   ];
-
+  
+  
   const navigation = useNavigation()
   const proceedToCart = () => {
     if(!selectedDate || !selectedTime || !delivery) {
@@ -219,8 +220,6 @@ const PickUpScreen = () => {
         </Pressable>
       </Pressable>
       )} 
-
-
     </>
   );
 };

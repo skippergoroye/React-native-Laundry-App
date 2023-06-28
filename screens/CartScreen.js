@@ -114,9 +114,6 @@ const CartScreen = () => {
             </Pressable>
         </>
       )}
-
-
-
     </SafeAreaView>
   )
 }

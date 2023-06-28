@@ -7,6 +7,7 @@ import PickUpScreen from './screens/PickUpScreen';
 import CartScreen from './screens/CartScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './screens/LoginScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -16,6 +17,7 @@ export default function App() {
     <NavigationContainer>
       <Provider store={store}>
         <Stack.Navigator>
+          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PickUp" component={PickUpScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Cart" component={CartScreen} options={{ headerShown: false }} />
