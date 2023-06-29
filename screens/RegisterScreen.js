@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Alert
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,6 +19,22 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const navigation = useNavigation()
+
+  const register = () => {
+    if(email === "" || password === "" || phone === "") {
+      Alert.alert(
+        'Invalid Details', 
+        'Please fill all the deatils', 
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    }
+  }
 
   return (
     <SafeAreaView
@@ -108,6 +125,7 @@ const RegisterScreen = () => {
           </View>
 
           <Pressable
+            onPress={register}
             style={{
               width: 200,
               backgroundColor: "#318CE7",
