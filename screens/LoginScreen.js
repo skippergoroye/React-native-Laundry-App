@@ -7,15 +7,57 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
+
+// Check if there is a Logged in User or Not if there's user nagivate to homescreen if no user show login screen
+// Promises
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if(user) {
+      navigation.navigate("Home")
+    } 
+  });
+  return unsubscribe
+},[onAuthStateChanged])
+
+// tryCatch
+// useEffect(() => {
+//     const checkIfUserExist = async () => {
+//       try {
+//         const unsubscribe = onAuthStateChanged((auth), (user) => {
+//           if(user){
+//             navigation.navigate("Home")
+//           } else {
+//             navigation.navigate("Login")
+//           }
+//         })
+//       } catch (error) {
+//          console.log(error)
+//       }
+
+//     }
+//     checkIfUserExist()
+// },[])
+
+  const Login = async() => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      // const user = userCredential.user;
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <SafeAreaView
@@ -93,14 +135,30 @@ const LoginScreen = () => {
               marginLeft: "auto",
               marginRight: "auto",
               marginTop: 50,
-              borderRadius: 7
+              borderRadius: 7,
             }}
           >
-            <Text style={{color: "white", fontSize: 18, textAlign: "center"}}>Login </Text>
+            <Text
+            onPress={Login}
+            style={{ color: "white", fontSize: 18, textAlign: "center" }}>
+              Login{" "}
+            </Text>
           </Pressable>
 
-          <Pressable onPress={() => navigation.navigate("Register")} style={{marginTop: 20}}>
-            <Text style={{textAlign: "center", fontWeight: 500, fontSize: 17, color: "gray"}}>Don't have an account? Sign Up</Text>
+          <Pressable
+            onPress={() => navigation.navigate("Register")}
+            style={{ marginTop: 20 }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                fontWeight: 500,
+                fontSize: 17,
+                color: "gray",
+              }}
+            >
+              Don't have an account? Sign Up
+            </Text>
           </Pressable>
         </View>
       </KeyboardAvoidingView>

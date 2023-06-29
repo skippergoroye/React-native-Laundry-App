@@ -39,7 +39,7 @@ const RegisterScreen = () => {
       ]);
     }
 
-    
+    // Promises
     // createUserWithEmailAndPassword(auth, email, password)
     //   .then((userCredential) => {
     //     console.log(userCredential)
@@ -64,13 +64,6 @@ const RegisterScreen = () => {
     } catch (error) {
        console.log(error)
     }
-
-
-        
-
-        
-   
-
   }
 
   return (
