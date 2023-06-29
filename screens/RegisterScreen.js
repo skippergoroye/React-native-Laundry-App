@@ -17,7 +17,7 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const navigation  = useNavigation()
+  const navigation = useNavigation()
 
   return (
     <SafeAreaView
