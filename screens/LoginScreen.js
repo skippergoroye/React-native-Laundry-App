@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Pressable,
   SafeAreaView,
@@ -6,7 +7,7 @@ import {
   Text,
   TextInput,
   View,
-} from "react-native";
+} from "react-native"
 import React, { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,41 +15,65 @@ import { useNavigation } from "@react-navigation/native";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
+
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false)
   const navigation = useNavigation();
 
 
 // Check if there is a Logged in User or Not if there's user nagivate to homescreen if no user show login screen
-// Promises
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, (user) => {
-    if(user) {
-      navigation.navigate("Home")
-    } 
-  });
-  return unsubscribe
-},[onAuthStateChanged])
+  // Promises
+  // useEffect(() => {
+  //   setLoading(true)
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if(!user){
+  //       setLoading(false)
+  //     }
+  //     if(user) {
+  //       navigation.navigate("Home")
+  //     } 
+  //   })
+  //   return unsubscribe
+  // },[onAuthStateChanged])
 
-// tryCatch
-// useEffect(() => {
-//     const checkIfUserExist = async () => {
-//       try {
-//         const unsubscribe = onAuthStateChanged((auth), (user) => {
-//           if(user){
-//             navigation.navigate("Home")
-//           } else {
-//             navigation.navigate("Login")
-//           }
-//         })
-//       } catch (error) {
-//          console.log(error)
-//       }
 
-//     }
-//     checkIfUserExist()
-// },[])
+  useEffect(() => {
+    setLoading(true)
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if(!authUser){
+        setLoading(false)
+      }
+      if(authUser) {
+        navigation.navigate("Home")
+      } 
+    })
+    return unsubscribe
+  },[])
+
+
+
+  // tryCatch
+  // useEffect(() => {
+  //   const checkIfUserExist = async () => {
+  //     try {
+  //       const unsubscribe = onAuthStateChanged((auth), (user) => {
+  //         if(user){
+  //           navigation.navigate("Home")
+  //         } else {
+  //           navigation.navigate("Login")
+  //         }
+  //       })
+  //     } catch (error) {
+  //         console.log(error)
+  //     }
+  //   }
+  //   checkIfUserExist()
+  // },[onAuthStateChanged])
+
+
+
 
   const Login = async() => {
     try {
@@ -59,6 +84,8 @@ useEffect(() => {
     }
   }
 
+
+
   return (
     <SafeAreaView
       style={{
@@ -68,7 +95,14 @@ useEffect(() => {
         padding: 10,
       }}
     >
-      <KeyboardAvoidingView>
+
+      {loading ? (
+        <View>
+          <Text>loading</Text>
+          <ActivityIndicator size="large" color="red" />
+        </View>
+      ) : (
+        <KeyboardAvoidingView>
         <View
           style={{
             justifyContent: "center",
@@ -162,6 +196,7 @@ useEffect(() => {
           </Pressable>
         </View>
       </KeyboardAvoidingView>
+      )}
     </SafeAreaView>
   );
 };

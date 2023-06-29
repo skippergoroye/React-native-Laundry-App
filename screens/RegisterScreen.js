@@ -13,9 +13,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { auth, db } from '../firebase'
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -48,7 +49,11 @@ const RegisterScreen = () => {
     //     const myUserId = auth.currentUser.uid
     //   })
 
+
+
+    // tryCatch
     try {
+      const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         //  console.log(userCredential)
         //  const user = userCredential._tokenResponse.email
@@ -59,12 +64,11 @@ const RegisterScreen = () => {
           email: user,
           phone: phone
          })
-
         //  console.log(user)
-    } catch (error) {
-       console.log(error)
+      } catch (error) {
+        console.log(error)
+      }
     }
-  }
 
   return (
     <SafeAreaView
