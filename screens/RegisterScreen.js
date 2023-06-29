@@ -13,6 +13,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { auth, db } from '../firebase'
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +23,8 @@ const RegisterScreen = () => {
   const [phone, setPhone] = useState("");
   const navigation = useNavigation()
 
-  const register = () => {
+
+  const register =  async () => {
     if(email === "" || password === "" || phone === "") {
       Alert.alert(
         'Invalid Details', 
@@ -34,6 +38,39 @@ const RegisterScreen = () => {
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
     }
+
+    
+    // createUserWithEmailAndPassword(auth, email, password)
+    //   .then((userCredential) => {
+    //     console.log(userCredential)
+    //     // const user = userCredential._tokenResponse.email
+    //     const user = userCredential.user.email
+    //     const myUserId = auth.currentUser.uid
+    //   })
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        //  console.log(userCredential)
+        //  const user = userCredential._tokenResponse.email
+         const user = userCredential.user.email
+         const myUserId = auth.currentUser.uid
+
+         setDoc(doc(db, "users", `${myUserId}`), {
+          email: user,
+          phone: phone
+         })
+
+        //  console.log(user)
+    } catch (error) {
+       console.log(error)
+    }
+
+
+        
+
+        
+   
+
   }
 
   return (
