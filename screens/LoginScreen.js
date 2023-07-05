@@ -27,12 +27,16 @@ const LoginScreen = () => {
 
   const getData = async () => {
     try {
+      setLoading(true)
       const savedUser = await AsyncStorage.getItem("data")
       const userData = JSON.parse(savedUser)
-      console.log(userData)
-      if(userData){
-        navigation.navigate("Home")
+      if(!userData){
+        setLoading(false)
       }
+      if(userData){
+        navigation.replace("Home")
+      }
+      // console.log(userData)
     } catch (e) {
       console.log(error)
     }

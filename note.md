@@ -269,7 +269,95 @@ import HorizontalDatepicker from '@awrminkhodaei/react-native-horizontal-datepic
 
 
 
+
+
+
 4. AsyncStorage
+AsyncStorage is a data storage system in React Native that is unencrypted, asynchronous, and allows users to persist data offline in React Native apps.
+
+
+AsyncStorage is also asynchronous, meaning that its methods run concurrently with the rest of your code, and it’s persistent, meaning that the stored data will always be available globally even if you log out or restart the application.
+
+
+AsyncStorage just like the localStorage in the web, persists data using key-value pairs just like localStorage. If you have used localStorage and sessionStorage before, then AsyncStorage will be familiar and easy to use.
+
+
+
+# How AsyncStorage works
+AsyncStorage accepts and stores only string data, so we must always serialize the data before storing it if it is not a string. This means that we must first convert it to string data before storing it; here, the key and the value are both strings.
+
+To convert the object we want to save to a string, we use JSON.stringify(). In situations where we get data back from the storage, we use the JSON.parse() to convert back to object:
+
+
+- Installation
+npx expo install @react-native-async-storage/async-storage
+
+- Usage
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+# Storing object data
+
+- Using the setItem() method
+The setItem method saves data to the AsyncStorage and allows a key and a value. Here, the key is a string that the data or value is assigned to:
+
+const value = {
+  name: "Chimezie",
+  job: "Software Developer"
+};
+
+
+const storeUser = async () => {
+  try {
+    await AsyncStorage.setItem("user", JSON.stringify(value));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+# Reading object data
+
+- Using the getItem() method
+The getItem() method allows us to get data back from AsyncStorage by using the key the data was saved as.
+
+For example, assuming we saved the data above using setItem, we receive the data back using the key "user":
+
+const getUser = async () => {
+    try {
+      const savedUser = await AsyncStorage.getItem("user");
+      const currentUser = JSON.parse(savedUser);
+      console.log(currentUser);
+    } catch (error) {
+      console.log(error);
+    }
+};
+
+
+
+# storing string data
+const storeData = async (value) => {
+  try {
+    await AsyncStorage.setItem('my-key', value);
+  } catch (e) {
+    console.log(e)
+  }
+};
+
+
+
+
+# Reading string data
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('my-key');
+  } catch (e) {
+    console.log(e)
+  }
+};
+
+
 
 
 
