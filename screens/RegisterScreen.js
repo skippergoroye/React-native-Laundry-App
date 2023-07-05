@@ -42,7 +42,7 @@ const RegisterScreen = () => {
 
       try {
         const userCredential = createUserWithEmailAndPassword(auth, email, password)
-        console.log(userCredential)
+        navigation.navigate("Home")
         // const myUserId = auth.currentUser.uid; ID
         // const user = userCredential._tokenResponse.email
         // const userEmail = userCredential.user.email
@@ -55,7 +55,6 @@ const RegisterScreen = () => {
 
         await AsyncStorage.setItem("data", JSON.stringify(regData));
         const storeData = await addDoc(collection(db, "users"), regData);
-        navigation.navigate("Home")
       } catch (error) {
         console.log(error)
       }

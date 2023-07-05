@@ -21,10 +21,12 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
+
+
   useEffect(() => {
-    // getData()
-    removeData()
-  })
+    getData()
+    // removeData()
+  }, [])
 
   const removeData = async () => {
     try {

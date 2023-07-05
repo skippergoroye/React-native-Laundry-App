@@ -18,11 +18,16 @@ import DressItem from "../components/DressItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/productSlice";
 import { useNavigation } from "@react-navigation/native";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 
 const HomeScreen = () => {
   const cart = useSelector((state) => state.cart.cartItems);
   const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
+  const product = useSelector((state) => state.product.productItems);
+  const [items, setItems] = useState([])
+  const dispatch = useDispatch();
   const navigation = useNavigation()
 
   // console.log(cart)
@@ -102,71 +107,134 @@ const HomeScreen = () => {
     }
   };
 
-  const product = useSelector((state) => state.product.productItems);
-  const dispatch = useDispatch();
+  
 
   useEffect(() => {
-    if (product.length > 0) return;
+    if(product.length > 0) return
+    getAllDocument()
+    // getDocument()
+  }, [])
 
-    const fetchProducts = () => {
-      services.map((service) => dispatch(getProducts(service)));
-    };
-    fetchProducts();
-  }, []);
+  
 
-  // console.log(product)
 
-  const services = [
-    {
-      id: "0",
-      image: "https://cdn-icons-png.flaticon.com/128/4643/4643574.png",
-      name: "shirt",
-      quantity: 0,
-      price: 10,
-    },
-    {
-      id: "11",
-      image: "https://cdn-icons-png.flaticon.com/128/892/892458.png",
-      name: "T-shirt",
-      quantity: 0,
-      price: 5,
-    },
-    {
-      id: "12",
-      image: "https://cdn-icons-png.flaticon.com/128/9609/9609161.png",
-      name: "dresses",
-      quantity: 0,
-      price: 25,
-    },
-    {
-      id: "13",
-      image: "https://cdn-icons-png.flaticon.com/128/599/599388.png",
-      name: "jeans",
-      quantity: 0,
-      price: 40,
-    },
-    {
-      id: "14",
-      image: "https://cdn-icons-png.flaticon.com/128/9431/9431166.png",
-      name: "Sweater",
-      quantity: 0,
-      price: 5,
-    },
-    {
-      id: "15",
-      image: "https://cdn-icons-png.flaticon.com/128/3345/3345397.png",
-      name: "shorts",
-      quantity: 0,
-      price: 30,
-    },
-    {
-      id: "16",
-      image: "https://cdn-icons-png.flaticon.com/128/293/293241.png",
-      name: "Sleeveless",
-      quantity: 0,
-      price: 50,
-    },
-  ];
+
+
+  // Get all documents in a collection 
+  async function getAllDocument () {
+    try {
+      const collectionRef = collection(db, "data")
+      const querySnapshot = await getDocs(collectionRef)
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data())
+        // console.log(items)
+        // console.log(doc.id, " => ", doc.data());
+      })
+      items?.map((service) => dispatch(getProducts(service)))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  // get a document
+  // async function getDocument () {
+  //   try {
+  //     const docRef = doc(db, "data", "BM1n1XdfMLquJrImxzuO");
+  //     const docSnap = await getDoc(docRef);
+  //     if (docSnap.exists()) {
+  //       console.log(docSnap.data());
+  //     } else {
+  //       console.log("No such document!");
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+
+  // Get all documents in a collection 
+  // async function getAllDocument () {
+  //   try {
+  //     const querySnapshot = await getDocs(collection(db, "users"));
+  //     querySnapshot.forEach((doc) => {
+  //       console.log(`${doc.id} => ${doc.data()}`);
+  //     });
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  
+ 
+
+
+  // mapping over data
+  // useEffect(() => {
+  //   if (product.length > 0) return;
+
+  //   const fetchProducts = () => {
+  //     services.map((service) => dispatch(getProducts(service)));
+  //   };
+  //   fetchProducts();
+  // }, []);
+
+  // // console.log(product)
+
+  // const services = [
+  //   {
+  //     id: "0",
+  //     image: "https://cdn-icons-png.flaticon.com/128/4643/4643574.png",
+  //     name: "shirt",
+  //     quantity: 0,
+  //     price: 10,
+  //   },
+  //   {
+  //     id: "11",
+  //     image: "https://cdn-icons-png.flaticon.com/128/892/892458.png",
+  //     name: "T-shirt",
+  //     quantity: 0,
+  //     price: 5,
+  //   },
+  //   {
+  //     id: "12",
+  //     image: "https://cdn-icons-png.flaticon.com/128/9609/9609161.png",
+  //     name: "dresses",
+  //     quantity: 0,
+  //     price: 25,
+  //   },
+  //   {
+  //     id: "13",
+  //     image: "https://cdn-icons-png.flaticon.com/128/599/599388.png",
+  //     name: "jeans",
+  //     quantity: 0,
+  //     price: 40,
+  //   },
+  //   {
+  //     id: "14",
+  //     image: "https://cdn-icons-png.flaticon.com/128/9431/9431166.png",
+  //     name: "Sweater",
+  //     quantity: 0,
+  //     price: 5,
+  //   },
+  //   {
+  //     id: "15",
+  //     image: "https://cdn-icons-png.flaticon.com/128/3345/3345397.png",
+  //     name: "shorts",
+  //     quantity: 0,
+  //     price: 30,
+  //   },
+  //   {
+  //     id: "16",
+  //     image: "https://cdn-icons-png.flaticon.com/128/293/293241.png",
+  //     name: "Sleeveless",
+  //     quantity: 0,
+  //     price: 50,
+  //   },
+  // ];
+
+
+
 
   return (
     <>
