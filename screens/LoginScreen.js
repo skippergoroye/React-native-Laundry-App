@@ -27,7 +27,8 @@ const LoginScreen = () => {
 
   const getData = async () => {
     try {
-      const userData = JSON.parse(await AsyncStorage.getItem("data"))
+      const savedUser = await AsyncStorage.getItem("data")
+      const userData = JSON.parse(savedUser)
       console.log(userData)
       if(userData){
         navigation.navigate("Home")

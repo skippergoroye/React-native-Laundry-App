@@ -269,6 +269,7 @@ import HorizontalDatepicker from '@awrminkhodaei/react-native-horizontal-datepic
 
 
 
+4. AsyncStorage
 
 
 
@@ -280,66 +281,6 @@ import HorizontalDatepicker from '@awrminkhodaei/react-native-horizontal-datepic
 
 
 
-// Check if there is a Logged in User or Not if there's user nagivate to homescreen if no user show login screen
-  // Promises
-  // useEffect(() => {
-  //   setLoading(true)
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if(!user){
-  //       setLoading(false)
-  //     }
-  //     if(user) {
-  //       navigation.navigate("Home")
-  //     } 
-  //   })
-  //   return unsubscribe
-  // },[onAuthStateChanged])
-
-
-  useEffect(() => {
-    setLoading(true)
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if(!authUser){
-        setLoading(false)
-      }
-      if(authUser) {
-        navigation.navigate("Home")
-      } 
-    })
-    return unsubscribe
-  },[])
-
-
-
-  // tryCatch
-  // useEffect(() => {
-  //   const checkIfUserExist = async () => {
-  //     try {
-  //       const unsubscribe = onAuthStateChanged((auth), (user) => {
-  //         if(user){
-  //           navigation.navigate("Home")
-  //         } else {
-  //           navigation.navigate("Login")
-  //         }
-  //       })
-  //     } catch (error) {
-  //         console.log(error)
-  //     }
-  //   }
-  //   checkIfUserExist()
-  // },[onAuthStateChanged])
-
-
-
-
-  const Login = async() => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      // const user = userCredential.user;
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
 
 
