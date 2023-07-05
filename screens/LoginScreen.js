@@ -22,8 +22,17 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    getData()
+    // getData()
+    removeData()
   })
+
+  const removeData = async () => {
+    try {
+      const savedUser = await AsyncStorage.clear();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getData = async () => {
     try {
@@ -37,7 +46,7 @@ const LoginScreen = () => {
         navigation.replace("Home")
       }
       // console.log(userData)
-    } catch (e) {
+    } catch (error) {
       console.log(error)
     }
   };

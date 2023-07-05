@@ -103,6 +103,8 @@ const RegisterScreen = () => {
     //     })
     //   })
     // }
+
+    
   return (
     <SafeAreaView
       style={{
