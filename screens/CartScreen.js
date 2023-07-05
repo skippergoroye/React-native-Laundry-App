@@ -2,12 +2,13 @@ import { StyleSheet, Text, SafeAreaView, View, Pressable} from 'react-native'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const CartScreen = () => {
+const CartScreen = ({ navigation, route }) => {
   const cart = useSelector((state) => state.cart.cartItems)
   const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
-  const navigation = useNavigation()
+  // const navigation = useNavigation()
+  // const route = useRoute();
   return (
     <SafeAreaView style={{ marginTop: 50 }}>
       {total === 0 ? (
@@ -111,7 +112,177 @@ const CartScreen = () => {
                   </Text>
                 </View>
               ))}
-            </Pressable>
+        </Pressable>
+
+
+        <View style={{ marginHorizontal: 10 }}>
+              <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 30 }}>
+                Billing Details
+              </Text>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: 7,
+                  padding: 10,
+                  marginTop: 15,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "400", color: "gray" }}
+                  >
+                    Item Total
+                  </Text>
+                  <Text style={{ fontSize: 18, fontWeight: "400" }}>
+                    ₹{total}
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginVertical: 8,
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "400", color: "gray" }}
+                  >
+                    Delivery Fee | 1.2KM
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "400",
+                      color: "#088F8F",
+                    }}
+                  >
+                    FREE
+                  </Text>
+                </View>
+
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
+                  >
+                    Free Delivery on Your order
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    borderColor: "gray",
+                    height: 1,
+                    borderWidth: 0.5,
+                    marginTop: 10,
+                  }}
+                />
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
+                  >
+                    selected Date
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "400",
+                      color: "#088F8F",
+                    }}
+                  >
+                    {/* {route.params.pickUpDate} */}
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
+                  >
+                    No Of Days
+                  </Text>
+
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "400",
+                      color: "#088F8F",
+                    }}
+                  >
+                    {route.params.no_Of_days}
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "500", color: "gray" }}
+                  >
+                    selected Pick Up Time
+                  </Text>
+
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "400",
+                      color: "#088F8F",
+                    }}
+                  >
+                    {route.params.selectedTime}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    borderColor: "gray",
+                    height: 1,
+                    borderWidth: 0.5,
+                    marginTop: 10,
+                  }}
+                />
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginVertical: 8,
+                  }}
+                >
+                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                    To Pay
+                  </Text>
+                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                    {total + 95}
+                  </Text>
+                </View>
+              </View>
+            </View>
         </>
       )}
     </SafeAreaView>
