@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -19,8 +20,31 @@ const LoginScreen = () => {
   const [loading,setLoading] = useState(false);
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getData()
+  })
+
+  const getData = async () => {
+    try {
+      const userData = JSON.parse(await AsyncStorage.getItem("data"))
+      console.log(userData)
+      if(userData){
+        navigation.navigate("Home")
+      }
+    } catch (e) {
+      console.log(error)
+    }
+  };
+
+
+
   const login = async () => {
-    
+    try {
+      const userCredential = signInWithEmailAndPassword(auth, email, password)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   // useEffect(() => {
