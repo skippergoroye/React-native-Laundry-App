@@ -17,15 +17,17 @@ const CartScreen = ({ navigation, route }) => {
   const placeOrder = async () => {
     navigation.navigate("Order")
     dispatch(cleanCart())
-    await setDoc(doc(db, "users", `${userUid}`)),
-    {
-      orders: { ...cart },
-      pickUpDetails: route.params,
-    },
-    {
-      merge: true
-    };
-  }
+    await setDoc(
+      doc(db, "users", `${userUid}`),
+      {
+        orders: { ...cart },
+        pickUpDetails: route.params,
+      },
+      {
+        merge: true
+      }
+    );
+  };
 
 
   // const navigation = useNavigation()

@@ -232,6 +232,11 @@ const images = [
 
 
 
+
+
+
+
+
 4. Horizontal Date Picker
 
 # installation
@@ -356,6 +361,33 @@ const getData = async () => {
     console.log(e)
   }
 };
+
+
+
+
+
+
+5. Lottie React Native
+Lottie component for React Native (iOS, Android, and Windows)
+
+Lottie is an ecosystem of libraries for parsing Adobe After Effects animations exported as JSON with bodymovin and rendering them natively!
+
+
+
+# installing
+- npm i lottie-react-native
+
+
+
+# Usage
+import React from 'react';
+import Lottie from 'lottie-react-native';
+
+export default function Animation() {
+  return (
+    <Lottie source={require('./animation.json')} autoPlay loop />
+  );
+}
 
 
 
