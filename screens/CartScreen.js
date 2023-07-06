@@ -7,9 +7,14 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 const CartScreen = ({ navigation, route }) => {
   const cart = useSelector((state) => state.cart.cartItems)
   const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
+
+
   // const navigation = useNavigation()
   // const route = useRoute();
+
+
   return (
+    <>
     <SafeAreaView style={{ marginTop: 50 }}>
       {total === 0 ? (
         <View style={{ justifyContent: "center", alignItems: "center"}}>
@@ -140,7 +145,7 @@ const CartScreen = ({ navigation, route }) => {
                     Item Total
                   </Text>
                   <Text style={{ fontSize: 18, fontWeight: "400" }}>
-                    ₹{total}
+                    ${total}
                   </Text>
                 </View>
 
@@ -204,7 +209,7 @@ const CartScreen = ({ navigation, route }) => {
                       fontWeight: "400",
                       color: "#088F8F",
                     }}
-                  >
+                  > 
                     {/* {route.params.pickUpDate} */}
                   </Text>
                 </View>
@@ -229,7 +234,7 @@ const CartScreen = ({ navigation, route }) => {
                       color: "#088F8F",
                     }}
                   >
-                    {route.params.no_Of_days}
+                    {route.params.no_Of_Days}
                   </Text>
                 </View>
 
@@ -286,6 +291,34 @@ const CartScreen = ({ navigation, route }) => {
         </>
       )}
     </SafeAreaView>
+
+    {total === 0 ? (
+        null
+      ) : (
+        <Pressable
+          style={{
+            backgroundColor: "#01A299",
+            padding: 10,
+            marginBottom: 40,
+            marginTop: "auto",
+            margin: 15,
+            borderRadius: 7,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+      >
+        <View>
+          <Text style={{fontSize: 17, fontWeight: "600", color:"white"}}>{cart.length} items | ${total}</Text>
+          <Text style={{fontSize: 13, fontWeight: "400", color:"white", marginVertical: 6}}>Extra charges might apply</Text>
+        </View>
+
+        <Pressable style={{ backgroundColor: "#fce303", padding: 10, borderRadius: 15 }}>
+          <Text style={{fontSize: 17, fontWeight: 600, color: "black"}}>Place order</Text>
+        </Pressable>
+      </Pressable>
+      )} 
+    </>
   )
 }
 

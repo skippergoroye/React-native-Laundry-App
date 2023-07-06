@@ -24,11 +24,11 @@ const LoginScreen = () => {
 
 
   useEffect(() => {
-    getData()
-    // removeData()
+    getUser()
+    // removeUser()
   }, [])
 
-  const removeData = async () => {
+  const removeUser = async () => {
     try {
       const savedUser = await AsyncStorage.clear();
     } catch (error) {
@@ -36,7 +36,7 @@ const LoginScreen = () => {
     }
   };
 
-  const getData = async () => {
+  const getUser = async () => {
     try {
       setLoading(true)
       const savedUser = await AsyncStorage.getItem("data")

@@ -20,6 +20,7 @@ import { getProducts } from "../features/productSlice";
 import { useNavigation } from "@react-navigation/native";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { TouchableOpacity } from "react-native";
 
 
 const HomeScreen = () => {
@@ -251,7 +252,7 @@ const HomeScreen = () => {
             <Text>{displayCurrentAddress}</Text>
           </View>
 
-          <Pressable style={{ marginLeft: "auto", marginRight: 7 }}>
+          <Pressable onPress={() => navigation.navigate("Profile")} style={{ marginLeft: "auto", marginRight: 7 }}>
             <Image
               style={{ width: 40, height: 40, borderRadius: 20 }}
               source={{
@@ -306,7 +307,7 @@ const HomeScreen = () => {
           }}
       >
         <View>
-          <Text style={{fontSize: 17, fontWeight: "600", color:"white"}}>{cart.length} items | {total}</Text>
+          <Text style={{fontSize: 17, fontWeight: "600", color:"white"}}>{cart.length} items | ${total}</Text>
           <Text style={{fontSize: 13, fontWeight: "400", color:"white", marginVertical: 6}}>Extra charges might apply</Text>
         </View>
 
