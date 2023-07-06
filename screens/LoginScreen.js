@@ -13,24 +13,25 @@ import React, { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { TouchableOpacity } from "react-native";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
-  const [loading,setLoading] = useState(false);
   const [password, setPassword] = useState("");
+  const [loading,setLoading] = useState(false);
   const navigation = useNavigation();
-
 
 
   useEffect(() => {
     getUser()
-    // removeUser()
-  }, [])
+    removeUser()
+  },[])
+  
 
   const removeUser = async () => {
     try {
-      const savedUser = await AsyncStorage.clear();
+      const logout = await AsyncStorage.clear();
     } catch (error) {
       console.log(error);
     }
@@ -53,15 +54,27 @@ const LoginScreen = () => {
     }
   };
 
-
-
   const login = async () => {
     try {
       const userCredential = signInWithEmailAndPassword(auth, email, password)
+      navigation.navigate("Home")
+
+      const regData = {
+        email: email,
+        password: password,
+
+      }
+
+      await AsyncStorage.setItem("data", JSON.stringify(regData));
     } catch (error) {
       console.log(error)
     }
   }
+
+
+
+
+ 
 
   // useEffect(() => {
   //   setLoading(true);
@@ -159,7 +172,7 @@ const LoginScreen = () => {
             />
           </View>
 
-          <Pressable
+          <TouchableOpacity
           onPress={login}
             style={{
               width: 200,
@@ -174,7 +187,7 @@ const LoginScreen = () => {
             <Text style={{ fontSize: 18, textAlign: "center", color: "white" }}>
               Login
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
           <Pressable onPress={() => navigation.navigate("Register")} style={{ marginTop: 20 }}>
             <Text
