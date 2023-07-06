@@ -54,28 +54,30 @@ const LoginScreen = () => {
     }
   };
 
-  
-  const login = async () => {
-    try {
-      const userCredential = signInWithEmailAndPassword(auth, email, password)
-      navigation.navigate("Home")
+
+
+  const login = () => {
+    signInWithEmailAndPassword(auth,email,password).then((userCredential) => {
+      // console.log("user credential",userCredential);
+      const user = userCredential.user;
+      // console.log("user details",user)
 
       const regData = {
         email: email,
         password: password,
-
       }
 
-      await AsyncStorage.setItem("data", JSON.stringify(regData));
-    } catch (error) {
-      console.log(error)
-    }
+      console.log("Login Screen", regData)
+
+      AsyncStorage.setItem("data", JSON.stringify(regData));
+      navigation.navigate("Home")
+    })
   }
 
+  
 
 
 
- 
 
   // useEffect(() => {
   //   setLoading(true);
@@ -90,14 +92,27 @@ const LoginScreen = () => {
 
   //   return unsubscribe;
   // },[])
-  
-  // const login = () => {
-  //   signInWithEmailAndPassword(auth,email,password).then((userCredential) => {
-  //     console.log("user credential",userCredential);
-  //     const user = userCredential.user;
-  //     console.log("user details",user)
-  //   })
+
+
+
+  // const login = async () => {
+  //   try {
+  //     const userCredential = signInWithEmailAndPassword(auth, email, password)
+  //     navigation.navigate("Home")
+
+  //     const regData = {
+  //       email: email,
+  //       password: password,
+
+  //     }
+
+  //     await AsyncStorage.setItem("data", JSON.stringify(regData));
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
   // }
+  
+
 
   return (
     <SafeAreaView

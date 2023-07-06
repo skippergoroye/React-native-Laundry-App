@@ -51,9 +51,9 @@ const RegisterScreen = () => {
       })
 
       const regData = {
-          email: email,
-          password: password,
-          phone: phone
+        email: email,
+        password: password,
+        phone: phone
       }
 
       // console.log(regData)
@@ -97,10 +97,8 @@ const RegisterScreen = () => {
     // } catch (error) {
     //   console.log(error)
     // }
-
-
-
     }
+    
 
   return (
     <SafeAreaView
