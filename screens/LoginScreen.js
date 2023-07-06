@@ -54,6 +54,7 @@ const LoginScreen = () => {
     }
   };
 
+  
   const login = async () => {
     try {
       const userCredential = signInWithEmailAndPassword(auth, email, password)

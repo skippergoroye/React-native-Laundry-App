@@ -16,11 +16,11 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 const RegisterScreen = () => {
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
-    const [phone,setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
     const navigation = useNavigation();
     const Register = async () => {
       if(email === "" || password === "" || phone === ""){
@@ -39,26 +39,30 @@ const RegisterScreen = () => {
         );
       }
 
+      createUserWithEmailAndPassword(auth,email,password).then((userCredential) => {
+      // console.log("user credential",userCredential);
+      const user = userCredential._tokenResponse.email;
+      const myUserUid = auth.currentUser.uid;
 
-      try {
-        const userCredential = createUserWithEmailAndPassword(auth, email, password)
-        navigation.navigate("Home")
-        // const myUserId = auth.currentUser.uid; ID
-        // const user = userCredential._tokenResponse.email
-        // const userEmail = userCredential.user.email
+      setDoc(doc(db,"users",`${myUserUid}`),{
+        email:email,
+        phone:phone,
+        password: password,
+      })
 
-        const regData = {
+      const regData = {
           email: email,
           password: password,
           phone: phone
-        }
-
-        await AsyncStorage.setItem("data", JSON.stringify(regData));
-        const storeData = await addDoc(collection(db, "users"), regData);
-      } catch (error) {
-        console.log(error)
       }
-    }
+
+      // console.log(regData)
+
+      AsyncStorage.setItem("data", JSON.stringify(regData))
+
+      navigation.navigate("Home")
+    })
+
 
     // useEffect(() => {
     //   setLoading(true)
@@ -74,36 +78,30 @@ const RegisterScreen = () => {
     // },[])
 
 
-    // const Register = () => {
-    //   if(email === "" || password === "" || phone === ""){
-    //     Alert.alert(
-    //       "Invalid Details",
-    //       "Please fill all the details",
-    //       [
-    //         {
-    //           text: "Cancel",
-    //           onPress: () => console.log("Cancel Pressed"),
-    //           style: "cancel"
-    //         },
-    //         { text: "OK", onPress: () => console.log("OK Pressed") }
-    //       ],
-    //       { cancelable: false }
-    //     );
-    //   }
-    //   createUserWithEmailAndPassword(auth,email,password).then((userCredential) => {
-        
-    //     console.log("user credential",userCredential);
-    //     const user = userCredential._tokenResponse.email;
-    //     const myUserUid = auth.currentUser.uid;
 
-    //     setDoc(doc(db,"users",`${myUserUid}`),{
-    //       email:user,
-    //       phone:phone
-    //     })
-    //   })
+    // try {
+    //   const userCredential = createUserWithEmailAndPassword(auth, email, password)
+    //   navigation.navigate("Home")
+    //   // const myUserId = auth.currentUser.uid; ID
+    //   // const user = userCredential._tokenResponse.email
+    //   // const userEmail = userCredential.user.email
+
+    //   const regData = {
+    //     email: email,
+    //     password: password,
+    //     phone: phone
+    //   }
+
+    //   await AsyncStorage.setItem("data", JSON.stringify(regData));
+    //   const storeData = await addDoc(collection(db, "users"), regData);
+    // } catch (error) {
+    //   console.log(error)
     // }
 
-    
+
+
+    }
+
   return (
     <SafeAreaView
       style={{

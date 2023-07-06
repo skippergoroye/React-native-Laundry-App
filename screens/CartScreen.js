@@ -1,12 +1,31 @@
 import { StyleSheet, Text, SafeAreaView, View, Pressable} from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { cleanCart } from '../features/cartSlice';
+import { auth, db } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 const CartScreen = ({ navigation, route }) => {
   const cart = useSelector((state) => state.cart.cartItems)
   const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
+  const dispatch = useDispatch()
+  const userUid = auth.currentUser.uid
+  console.log(userUid)
+
+  const placeOrder = async () => {
+    navigation.navigate("Order")
+    dispatch(cleanCart())
+    await setDoc(doc(db, "users", `${userUid}`)),
+    {
+      orders: { ...cart },
+      pickUpDetails: route.params,
+    },
+    {
+      merge: true
+    };
+  }
 
 
   // const navigation = useNavigation()
@@ -313,7 +332,7 @@ const CartScreen = ({ navigation, route }) => {
           <Text style={{fontSize: 13, fontWeight: "400", color:"white", marginVertical: 6}}>Extra charges might apply</Text>
         </View>
 
-        <Pressable style={{ backgroundColor: "#fce303", padding: 10, borderRadius: 15 }}>
+        <Pressable onPress={placeOrder} style={{ backgroundColor: "#fce303", padding: 10, borderRadius: 15 }}>
           <Text style={{fontSize: 17, fontWeight: 600, color: "black"}}>Place order</Text>
         </Pressable>
       </Pressable>

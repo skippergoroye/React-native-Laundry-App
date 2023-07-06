@@ -25,8 +25,8 @@ import { TouchableOpacity } from "react-native";
 
 const HomeScreen = () => {
   const cart = useSelector((state) => state.cart.cartItems);
-  const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
   const product = useSelector((state) => state.product.productItems);
+  const total = cart.map((item) => item.quantity * item.price).reduce((curr, prev) => curr + prev, 0)
   const [items, setItems] = useState([])
   const dispatch = useDispatch();
   const navigation = useNavigation()
