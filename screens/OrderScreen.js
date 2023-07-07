@@ -37,10 +37,26 @@ const OrderScreen = () => {
           fontSize: 19,
           fontWeight: "600",
           textAlign: "center",
+          // marginBottom: 200
         }}
       >
         Your order has been Placed
       </Text>
+
+
+
+      <View style={{ backgroundColor: "#eba834", padding: 10, position: "absolute", left: 120, bottom: -250, borderRadius: 10 }}>
+        <Text
+          style={{
+            // marginTop: 200,
+            fontSize: 20,
+            fontWeight: "600",
+            textAlign: "center",
+          }}
+        >
+        Skipper Build
+      </Text>
+      </View>
 
 
       <Lottie 
@@ -56,6 +72,11 @@ const OrderScreen = () => {
         loop={false}
         speed={0.7} 
       />
+
+
+      
+
+      
     </SafeAreaView>
   );
 };
