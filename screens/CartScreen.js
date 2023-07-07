@@ -15,7 +15,7 @@ const CartScreen = ({ navigation, route }) => {
   console.log(userUid)
 
   const placeOrder = async () => {
-    navigation.navigate("Order")
+    navigation.navigate("Flutterwave")
     dispatch(cleanCart())
     await setDoc(
       doc(db, "users", `${userUid}`),

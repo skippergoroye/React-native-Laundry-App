@@ -11,6 +11,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import OrderScreen from './screens/OrderScreen';
+import FlutterwaveScreen from './screens/FlutterwaveScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ export default function App() {
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Order" component={OrderScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Flutterwave" component={FlutterwaveScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       <StatusBar style="auto" />
     </Provider>

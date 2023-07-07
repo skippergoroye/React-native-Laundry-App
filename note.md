@@ -401,6 +401,47 @@ export default function Animation() {
 
 
 
+6. FlutterWave
+Easily implement Flutterwave for payments in your React Native appliction. This library supports both Android and iOS, and use the Flutterwave's V3 API.
+
+
+# Installation
+npm i flutterwave-react-native
+
+
+
+
+# Usage
+import {PayWithFlutterwave} from 'flutterwave-react-native';
+
+
+
+  const generateTransactionRef = (length: number) => {
+    var result = '';
+    var characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return `flw_tx_ref_${result}`;
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

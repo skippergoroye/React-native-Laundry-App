@@ -1,10 +1,22 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import Lottie from "lottie-react-native";
+import { TouchableOpacity } from "react-native";
 
 const OrderScreen = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={{ marginTop: 30 }}>
+      <View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Home")}
+        style={{ position: "absolute", left: 20, top: 20, padding: 2, backgroundColor: "#eba834", borderRadius: 20 }}
+      >
+        <Feather name='arrow-left' size={30} color='#000000' />
+			</TouchableOpacity>
+      </View>
       <Lottie
         source={require("../assets/thumbs.json")}
         style={{
